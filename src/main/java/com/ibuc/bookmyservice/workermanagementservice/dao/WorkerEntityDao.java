@@ -1,6 +1,7 @@
 package com.ibuc.bookmyservice.workermanagementservice.dao;
 
 import com.ibuc.bookmyservice.workermanagementservice.WMConstants;
+import com.ibuc.bookmyservice.workermanagementservice.model.TimeSlot;
 import com.ibuc.bookmyservice.workermanagementservice.model.Worker;
 import com.ibuc.bookmyservice.workermanagementservice.model.WorkerEntityRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,27 @@ public class WorkerEntityDao {
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
         ResponseEntity<Worker> response = restTemplate.exchange(uri, HttpMethod.GET,entity , new ParameterizedTypeReference<>() {});
+
+        if (!response.getStatusCode().is2xxSuccessful()){
+            throw new Exception("Unable to fetch data from entity service");
+        }
+
+        return response.getBody();
+    }
+
+    public List<TimeSlot> findTimeSlotsByWorkerId(Long id) throws Exception {
+        String url = ENTITY_URI + WMConstants.URI_WORKER;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .path("/" + id + "/timeslots")
+                .build()
+                .toUri();
+
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+
+        ResponseEntity<List<TimeSlot>> response = restTemplate.exchange(uri, HttpMethod.GET,entity , new ParameterizedTypeReference<>() {});
 
         if (!response.getStatusCode().is2xxSuccessful()){
             throw new Exception("Unable to fetch data from entity service");

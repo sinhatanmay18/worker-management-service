@@ -2,6 +2,7 @@ package com.ibuc.bookmyservice.workermanagementservice.service;
 
 import com.ibuc.bookmyservice.workermanagementservice.WorkerServiceConstants;
 import com.ibuc.bookmyservice.workermanagementservice.dao.WorkerEntityDao;
+import com.ibuc.bookmyservice.workermanagementservice.model.TimeSlot;
 import com.ibuc.bookmyservice.workermanagementservice.model.WorkerEntityRequest;
 import com.ibuc.bookmyservice.workermanagementservice.model.WorkerRequest;
 import com.ibuc.bookmyservice.workermanagementservice.model.Worker;
@@ -30,6 +31,10 @@ public class WorkerService {
         return this.workerEntityDao.findWorkerById(workerId);
     }
 
+    public List<TimeSlot> getTimeSlotByWorker(Long workerId) throws Exception {
+        return this.workerEntityDao.findTimeSlotsByWorkerId(workerId);
+    }
+
     private Worker setWorkerAttributes(Worker worker){
         return Worker.builder()
                 .workerId(worker.getWorkerId())
@@ -37,7 +42,7 @@ public class WorkerService {
                 .age(worker.getAge())
                 .phoneNumber(worker.getPhoneNumber())
                 .categoryId(worker.getCategoryId())
-                .availability_status(worker.isAvailability_status())
+                .availabilityStatus(worker.isAvailabilityStatus())
                 .h3Index(this.h3Core.geoToH3(worker.getWorkerLocation().getLatitude() , worker.getWorkerLocation().getLongitude() , 6))
                 .build();
     }

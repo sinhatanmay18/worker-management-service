@@ -20,7 +20,7 @@ public class Worker {
     @JsonProperty
     private Long phoneNumber;
     @JsonProperty
-    private boolean availability_status;
+    private boolean availabilityStatus;
     @JsonProperty
     private WorkerLocation workerLocation;
     @JsonProperty

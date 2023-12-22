@@ -1,5 +1,6 @@
 package com.ibuc.bookmyservice.workermanagementservice.controller;
 
+import com.ibuc.bookmyservice.workermanagementservice.model.TimeSlot;
 import com.ibuc.bookmyservice.workermanagementservice.model.WorkerRequest;
 import com.ibuc.bookmyservice.workermanagementservice.model.Worker;
 import com.ibuc.bookmyservice.workermanagementservice.service.WorkerService;
@@ -36,5 +37,10 @@ public class WorkerController {
     @PostMapping("/fetchByCategory")
     public ResponseEntity<List<Worker>> fetchWorkerByCategory(@RequestBody WorkerRequest workerRequest){
         return ResponseEntity.ok(this.workerService.findNearbyWorkers(workerRequest));
+    }
+
+    @GetMapping("/{workerId}/timeslots")
+    public List<TimeSlot> getAvailableTimeSlots(@PathVariable Long workerId) throws Exception {
+        return this.workerService.getTimeSlotByWorker(workerId);
     }
 }
